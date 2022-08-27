@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BookUtil {
 	
-	//create a seperate class 
+	//create a seprate class 
 	public static void validateBookId(String bookId) throws InvalidBookException{
 		if(bookId.length()!=4)
 			throw new InvalidBookException("Book Id must be of exactly 4 characters");
@@ -60,6 +60,7 @@ public class BookUtil {
 					validateBookId(bookId);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
+					System.exit(0);
 				}
 				
 				System.out.println("Enter title : ");
@@ -72,6 +73,7 @@ public class BookUtil {
 				String category = readString.nextLine();
 				try {
 					validateCategory(category);
+					System.exit(0);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
 				}
@@ -80,6 +82,7 @@ public class BookUtil {
 				float price = readNumber.nextFloat();
 				try {
 					validatePrice(price);
+					System.exit(0);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
 				}
