@@ -1,12 +1,8 @@
 package com.manipal.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.manipal.exception.InvalidBookException;
-
+//POJO
 public class Book {
-	
+
 	private String bookId;
 	private String title;
 	private String author;
@@ -14,21 +10,12 @@ public class Book {
 	private float price;
 	
 	
-	public Book(String bookId, String title, String author, String category, float price) throws InvalidBookException{
-		
-		if(!(bookId.startsWith("B")||bookId.startsWith("b")) && (bookId.length()!=4))
-			throw new InvalidBookException("Invalid Book Id ");
-		else if(price<=0)
-			throw new InvalidBookException("Price Cannot be Negative");
-		else if(!containsCategory(category))
-			throw new InvalidBookException("Invalid Book Category");
-		else {
-			this.bookId = bookId;
-			this.title = title;
-			this.author = author;
-			this.category = category;
-			this.price = price;
-		}
+	public Book(String bookId, String title, String author, String category, float price) {
+		this.bookId = bookId;
+		this.title = title;
+		this.author = author;
+		this.category = category;
+		this.price = price;
 		
 	}
 
@@ -72,20 +59,10 @@ public class Book {
 		this.price = price;
 	}
 	
-	public List<String> initializeList(){
-		List<String> bookCategory = new ArrayList<String>();
-		bookCategory.add("Science");
-		bookCategory.add("Fiction");
-		bookCategory.add("Technology");
-		bookCategory.add("Others");
-		
-		return bookCategory;
+	@Override
+	public String toString() {
+		return "\tBookId : " + bookId + " \n\tTtitle:" + title + " \n\tAuthor:" + author + " \n\tCategory:" + category
+				+ " \n\tPrice=" + price + "";
 	}
-	
-	public boolean containsCategory(String category) {
-		List<String> booksCategory = initializeList();
-		return booksCategory.contains(category);
-	}
-	
 	
 }

@@ -4,127 +4,123 @@ import com.manipal.model.Book;
 import com.manipal.store.BookStore;
 import com.manipal.exception.InvalidBookException;
 
+import java.util.Scanner;
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookUtil {
-
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	
+	//create a seperate class 
+	public static void validateBookId(String bookId) throws InvalidBookException{
+		if(bookId.length()!=4)
+			throw new InvalidBookException("Book Id must be of exactly 4 characters");
+		if(!bookId.startsWith("B"))
+				throw new InvalidBookException("Book Id must start with B");	
 		
+	}
+	
+	public static void validatePrice(float price) throws InvalidBookException{
+		if(price<=0)
+			throw new InvalidBookException("Price cannot be negative");
+	}
+	
+	public static void validateCategory(String category) throws InvalidBookException{
+		
+		List<String> listOfCategories = new ArrayList<>(List.of("Science","Fiction","Others"));
+		if(!listOfCategories.contains(category))
+			throw new InvalidBookException("Book category is invalid");
+	}
+
+	public static void main(String[] args) throws IOException,InvalidBookException {
+		Scanner readString = new Scanner(System.in);
+		Scanner readNumber = new Scanner(System.in);
+		int choice=0;
 		BookStore bs = new BookStore();
 		
-		try {
-			Book b1 = new Book("B100","Harry 1","JK Rollings","Fiction",169f);
-			Book b2 = new Book("B102","Harry 2","JK Rollings","Fiction",199.23f);
-			Book b3 = new Book("B103","Maths 1","RD Sharma","Science",200f);
-			Book b4 = new Book("B104","Science 1","Geo National","Fiction",299f);
-			
-			bs.addBook(b1);bs.addBook(b2);bs.addBook(b3);bs.addBook(b4);
-			bs.displayAll();
-			
-			bs.deleteBook("B100");
-			
-			bs.displayAll();
-			
-			bs.updateBook("B102");
-			bs.displayAll();
-			bs.searchByAuthor("JK Rollings");
-			bs.searchByTitle("Science 1");
-			
-			
-		} catch (InvalidBookException e) {
-			
-			e.printStackTrace();
-		}
-		/*BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		
-		BookStore bookStore = new BookStore();
-		int option=0;
 		do {
+			System.out.println("---------------------------------------");
 			System.out.println("1. Add Book");
-			System.out.println("2. Delete Book");
-			System.out.println("3. Update Book");
-			System.out.println("4. Search By Author");
-			System.out.println("5. Search By Title");
-			System.out.println("6. Display All Books ");
-			System.out.println("7. Exit");
+			System.out.println("2. Update Book");
+			System.out.println("3. Search book by Author");
+			System.out.println("4. Search book by Title");
+			System.out.println("5. Display all books");
+			System.out.println("6. Exit");
+			System.out.println("---------------------------------------");
+			System.out.print("Enter your choice : ");
+			choice=readNumber.nextInt();
 			
-			
-			System.out.println("Input your choice : ");
-			option = Integer.valueOf(reader.readLine());
-			
-			switch(option) {
-				case 1:{
-					System.out.println("Enter Book Id : ");
-					String bookId = reader.readLine();
-					System.out.println("Enter Book Title : ");
-					String title = reader.readLine();
-					System.out.println("Enter Book Author : ");
-					String author = reader.readLine();
-					System.out.println("Enter Book Category : ");
-					String category = reader.readLine();
-					System.out.println("Enter Book Price : ");
-					float price = Float.valueOf(reader.readLine());
-					
-					try {
-						//add book
-						Book b = new Book(bookId,title,author,category,price);
-						bookStore.addBook(b);
-						System.out.println("\nBook Added Successfully !");
-						System.out.println();
-					}
-					catch(InvalidBookException e) {
-						System.out.println(e.getMessage().toString());
-					}
-					break;
+			switch(choice) {
+			case 1:{
+				System.out.println("Enter book id : ");
+				String bookId = readString.nextLine();
+				
+				try {
+					validateBookId(bookId);
+				}catch(InvalidBookException e) {
+					System.out.println(e.getMessage());
 				}
 				
-				case 2:{
-					//delete book
-					System.out.println("Enter the book id to be deleted ");
-					String bookId = reader.readLine();
-					bookStore.deleteBook(bookId);
-					break;
+				System.out.println("Enter title : ");
+				String title = readString.nextLine();
+				
+				System.out.println("Enter author : ");
+				String author = readString.nextLine();
+				
+				System.out.println("Enter category : ");
+				String category = readString.nextLine();
+				try {
+					validateCategory(category);
+				}catch(InvalidBookException e) {
+					System.out.println(e.getMessage());
 				}
-				case 3:{
-					//update book
-					System.out.println("Enter the book id for which the fields are to updated : ");
-					String bookId = reader.readLine();
-					bookStore.updateBook(bookId);
-					break;
+				
+				System.out.println("Enter price : ");
+				float price = readNumber.nextFloat();
+				try {
+					validatePrice(price);
+				}catch(InvalidBookException e) {
+					System.out.println(e.getMessage());
 				}
-				case 4:{
-					//search by author
-					System.out.println("Enter the name of author whose books are to be searched : ");
-					String author = reader.readLine();
-					bookStore.searchByAuthor(author);
-					break;
+				
+				
+				Book b = new Book(bookId,title,author,category,price);
+				bs.addBook(b);
+				System.out.println("Book added succesfully");
+				break;
 				}
-				case 5:{
-					//search by title
-					System.out.println("Enter the title of book : ");
-					String title = reader.readLine();
-					bookStore.searchByTitle(title);
-					break;
-				}
-				case 6:{
-					//display all books
-					bookStore.displayAll();
-					break;
-				}
-				case 7:{
-					System.out.println("Thanks for using my Application ! ");
-					System.exit(0);
-				}
-				default:{
-					System.out.println("Invalid Choice! Input proper choice ");
-					System.out.println();
-				}
+			case 2:{
+				System.out.println("Enter the bookId : ");
+				String bookId = readString.nextLine();
+				bs.updateBook(bookId);
+				break;
 			}
-		}while(option!=7);*/
+			case 3:{
+				System.out.println("Enter the name of author : ");
+				String author = readString.nextLine();
+				bs.searchByAuthor(author);
+				break;
+			}
+			case 4:{
+				System.out.println("Enter the title : ");
+				String title = readString.nextLine();
+				bs.searchByTitle(title);
+				break;
+			}
+			case 5:{
+				bs.displayAll();
+				break;
+			}
+			case 6:{
+				System.out.println("Thanks for using my application ! Have a great day ahead!!! ");
+				System.exit(0);
+			}
+			}
+		}while(choice!=6);
 		
-		
+		readString.close();
+		readNumber.close();
 	}
 
 }
