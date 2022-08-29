@@ -6,33 +6,11 @@ import com.manipal.exception.InvalidBookException;
 
 import java.util.Scanner;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class BookUtil {
 	
-	//try creating a new class for validations
-	public static void validateBookId(String bookId) throws InvalidBookException{
-		if(bookId.length()!=4)
-			throw new InvalidBookException("Book Id must be of exactly 4 characters");
-		if(!bookId.startsWith("B"))
-				throw new InvalidBookException("Book Id must start with B");	
-		
-	}
-	
-	public static void validatePrice(float price) throws InvalidBookException{
-		if(price<=0)
-			throw new InvalidBookException("Price cannot be negative");
-	}
-	
-	public static void validateCategory(String category) throws InvalidBookException{
-		
-		List<String> listOfCategories = new ArrayList<>(List.of("Science","Fiction","Others"));
-		if(!listOfCategories.contains(category))
-			throw new InvalidBookException("Book category is invalid");
-	}
-
 	public static void main(String[] args) throws IOException,InvalidBookException {
 		Scanner readString = new Scanner(System.in);
 		Scanner readNumber = new Scanner(System.in);
@@ -57,7 +35,7 @@ public class BookUtil {
 				String bookId = readString.nextLine();
 				
 				try {
-					validateBookId(bookId);
+					ValidateBookDetails.validateBookId(bookId);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
 					System.out.println("Failed to add book! ");
@@ -73,7 +51,7 @@ public class BookUtil {
 				System.out.println("Enter category : ");
 				String category = readString.nextLine();
 				try {
-					validateCategory(category);
+					ValidateBookDetails.validateCategory(category);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
 					System.out.println("Failed to add book! ");
@@ -83,7 +61,7 @@ public class BookUtil {
 				System.out.println("Enter price : ");
 				float price = readNumber.nextFloat();
 				try {
-					validatePrice(price);
+					ValidateBookDetails.validatePrice(price);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
 					System.out.println("Failed to add book! ");
