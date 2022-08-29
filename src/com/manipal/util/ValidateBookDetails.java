@@ -10,7 +10,7 @@ public class ValidateBookDetails {
 	public static void validateBookId(String bookId) throws InvalidBookException{
 		if(bookId.length()!=4)
 			throw new InvalidBookException("Book Id must be of exactly 4 characters");
-		if(!bookId.startsWith("B"))
+		else if(!bookId.startsWith("B"))
 				throw new InvalidBookException("Book Id must start with B");	
 		
 	}

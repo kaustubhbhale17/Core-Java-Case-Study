@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BookUtil {
 	
-	//create a seprate class 
+	//try creating a new class for validations
 	public static void validateBookId(String bookId) throws InvalidBookException{
 		if(bookId.length()!=4)
 			throw new InvalidBookException("Book Id must be of exactly 4 characters");
@@ -60,7 +60,8 @@ public class BookUtil {
 					validateBookId(bookId);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
-					System.exit(0);
+					System.out.println("Failed to add book! ");
+					break;
 				}
 				
 				System.out.println("Enter title : ");
@@ -73,21 +74,23 @@ public class BookUtil {
 				String category = readString.nextLine();
 				try {
 					validateCategory(category);
-					System.exit(0);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
+					System.out.println("Failed to add book! ");
+					break;
 				}
 				
 				System.out.println("Enter price : ");
 				float price = readNumber.nextFloat();
 				try {
 					validatePrice(price);
-					System.exit(0);
 				}catch(InvalidBookException e) {
 					System.out.println(e.getMessage());
+					System.out.println("Failed to add book! ");
+					break;
 				}
 				
-				
+				//create a new book 
 				Book b = new Book(bookId,title,author,category,price);
 				bs.addBook(b);
 				System.out.println("Book added succesfully");
